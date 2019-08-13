@@ -1,0 +1,373 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Map data</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+        <link rel="stylesheet" href="style.css" type="text/css" />
+        <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTS6gjckBmeABOGXIUiOiZObZESPg" type="text/javascript"></script>
+		<script src="http://api-maps.yandex.ru/1.1/index.xml?key=ALtQNkoBAAAAQlAUagQAUpLDzMkEX_IbR-2OTxfYgQVyhpQAAAAAAAAAAACk6Y5Qh_ak5Gz1ofj_Pap6BbiObw==" type="text/javascript"></script>
+        <script src="OpenLayers.js" type="text/javascript"></script>
+        <script src="openlayex.js" type="text/javascript"></script>
+		<script type="text/javascript">
+            var m_map;
+			var firstLat = 57;
+			var firstLon = 84;
+			var firstZoom = 4;
+			var firstLayerName = "";
+			var geozones_control;
+			var mapLoaded = false;
+			var yandex_hybrid_layer = null;
+			var yahoo_hybrid_layer = null;
+			var disable_double_click = false;
+			var disable_double_click_control = null;
+
+            function webgis_map_options(opts) {
+				if (typeof opts != 'object') opts = new Object;
+				opts.maxExtent = new OpenLayers.Bounds( - 20037508.3427892, -20037508.3427892, 20037508.3427892, 20037508.3427892);
+				opts.numZoomLevels = 19;
+				opts.maxResolution = 156543.0339;
+				opts.units = 'm';
+				opts.projection = "EPSG:900913";
+				opts.displayProjection = new OpenLayers.Projection("EPSG:4326");
+				return opts;
+			}
+
+			function init(){
+
+				var map_options = webgis_map_options({
+					controls: [],
+					theme: null,
+					eventListeners: {
+                        "changebaselayer": mapBaseLayerChanged
+                    }
+				});
+				m_map = new OpenLayers.Map('map', map_options);
+
+				var layers = new Array;
+
+				layers.push(new OpenLayers.Layer.TMS("OSM (Mapnik)",
+                	"http://tile.openstreetmap.org/",
+					{ type: 'png', getURL: getOsmMapnikTileURL, displayOutsideMaxExtent: true,
+                    attribution: '<a href="">OpenStreetMap</a>'})
+				);
+
+				layers.push(new OpenLayers.Layer.TMS("ITOB GEOZONES 52",
+                	"http://127.0.0.1:2020/",
+					{ type: 'png', getURL: osm_getTileURL_Local, displayOutsideMaxExtent: true, transparent: true, isBaseLayer : false,
+                    attribution: '<a href="http://www.openstreetmap.org/">OpenStreetMap</a>'})
+				);
+				layers.push(new OpenLayers.Layer.TMS("ITOB GEOZONES 2",
+                	"http://127.0.0.1:2020/",
+					{ type: 'png', getURL: osm_getTileURL_Local2, displayOutsideMaxExtent: true, transparent: true, isBaseLayer : false,
+                    attribution: '<a href="http://www.openstreetmap.org/">OpenStreetMap</a>'})
+				);
+				layers.push(new OpenLayers.Layer.TMS("ITOB ITINS 2",
+                	"http://127.0.0.1:2020/",
+					{ type: 'png', getURL: osm_getTileURL_Local3, displayOutsideMaxExtent: true, transparent: true, isBaseLayer : false,
+                    attribution: '<a href="http://www.openstreetmap.org/">OpenStreetMap</a>'})
+				);
+
+				layers.push(new OpenLayers.Layer.TMS("OSM (Tiles@Home)",
+                	"http://tah.openstreetmap.org/Tiles/tile/",
+                	{ type: 'png', getURL: osm_getTileURL, displayOutsideMaxExtent: true,
+                    attribution: '<a href="http://www.openstreetmap.org/">OpenStreetMap</a>'})
+				);
+
+				layers.push(new OpenLayers.Layer.TMS("CloudMade",
+                	"http://b.tile.cloudmade.com/b340f66132415b1fb597971398c1bfc0/",
+                	{ type: 'png', getURL: GetCloudMadeTileURL, displayOutsideMaxExtent: true,
+                    attribution: '<a href="http://cloudmade.com">CloudMade</a>'})
+				);
+
+				layers.push(new OpenLayers.Layer.WebGIS("WebGIS",
+					"http://ft1.mapsviewer.com,http://ft2.mapsviewer.com,http://ft3.mapsviewer.com,http://ft4.mapsviewer.com",
+					{map_tags: ""})
+				);
+
+				try {
+					layers.push( new OpenLayers.Layer.Google( "Google Схема" , {type: G_NORMAL_MAP, sphericalMercator: true} ));
+					layers.push( new OpenLayers.Layer.Google( "Google Ландшафт" , {type: G_PHYSICAL_MAP, sphericalMercator: true} ));
+					layers.push( new OpenLayers.Layer.Google( "Google Спутник" , {type: G_SATELLITE_MAP, sphericalMercator: true} ));
+					layers.push( new OpenLayers.Layer.Google( "Google Гибрид" , {type: G_HYBRID_MAP, sphericalMercator: true} ));
+				} catch(err) {}
+
+				try {
+					layers.push( new OpenLayers.Layer.Yandex( "Yandex map Схема" , {type: YMaps.MapType.MAP, sphericalMercator: true} ));
+					layers.push( new OpenLayers.Layer.Yandex( "Yandex map Спутник" , {type: YMaps.MapType.SATELLITE, sphericalMercator: true} ));
+					layers.push( new OpenLayers.Layer.Yandex( "Yandex map Гибрид" , {type: YMaps.MapType.HYBRID, sphericalMercator: true} ));
+				} catch(err) {}
+
+				try {
+					layers.push( new OpenLayers.Layer.Yandex( "КС Схема" ,
+						{type: YMaps.MapType.MAP, sphericalMercator: true,
+						setType: function() {
+							if (this.mapObject.getCenter() != null) {
+									var myData = new YMaps.TileDataSource("http://maps.kosmosnimki.ru/TileSender.ashx?ModeKey=tile&MapName=Kosmosnimki&LayerName=E50931C3B2DD4E0FA2C03366552EEAA1", false, true);
+									myData.getTileUrl = function (tile, zoom) {
+										return this.getTileUrlTemplate() +
+										"&x=" + Math.round(tile.x - Math.round(Math.pow(2,zoom)/2-0.5)) +
+										"&y=" + (-Math.round(Math.pow(2,zoom)/2-0.5) + (Math.pow(2,zoom)-(tile.y+1))) +
+										"&z=" + (zoom);
+									}
+									this.mapObject.addCopyright('© Космоснимки (www.kosmosnimki.ru)');
+									this.mapObject.setType(new YMaps.MapType([new YMaps.Layer(myData)], 'Kosmosnimki', {}));
+									this.mapObject.redraw();
+									this.map.events.unregister("moveend", this, this.setType);
+								}
+							}
+						} ));
+					layers.push( new OpenLayers.Layer.Yandex( "КС Спутник" ,
+						{type: YMaps.MapType.MAP, sphericalMercator: true,
+						setType: function() {
+							if (this.mapObject.getCenter() != null) {
+									var myData = new YMaps.TileDataSource("http://maps.kosmosnimki.ru/TileSender.ashx?ModeKey=tile&MapName=Kosmosnimki&LayerName=C9458F2DCB754CEEACC54216C7D1EB0A", false, true);
+									myData.getTileUrl = function (tile, zoom) {
+										return this.getTileUrlTemplate() +
+										"&x=" + Math.round(tile.x - Math.round(Math.pow(2,zoom)/2-0.5)) +
+										"&y=" + (-Math.round(Math.pow(2,zoom)/2-0.5) + (Math.pow(2,zoom)-(tile.y+1))) +
+										"&z=" + (zoom);
+									}
+									this.mapObject.addCopyright('© Космоснимки (www.kosmosnimki.ru)');
+									this.mapObject.setType(new YMaps.MapType([new YMaps.Layer(myData)], 'Kosmosnimki', {}));
+									this.mapObject.redraw();
+									this.map.events.unregister("moveend", this, this.setType);
+								}
+							}
+						} ));
+
+				} catch(err) {}
+
+				layers.push( new OpenLayers.Layer.VEMaps( "VE Схема" , {map_type: "MAP", sphericalMercator: true} ));
+				layers.push( new OpenLayers.Layer.VEMaps( "VE Спутник" , {map_type: "SATELLITE", sphericalMercator: true} ));
+				layers.push( new OpenLayers.Layer.VEMaps( "VE Гибрид" , {map_type: "HYBRID", sphericalMercator: true} ));
+
+				/*layers.push( new OpenLayers.Layer.YahooMaps( "Yahoo Схема" , {map_type: "MAP", sphericalMercator: true} ));
+				layers.push( new OpenLayers.Layer.YahooMaps( "Yahoo Спутник" , {map_type: "SATELLITE", sphericalMercator: true} ));
+				layers.push( new OpenLayers.Layer.YahooMaps( "Yahoo Гибрид" , {map_type: "SATELLITE", sphericalMercator: true} ));
+				yahoo_hybrid_layer = new OpenLayers.Layer.YahooMaps( "yahoo_hybrid", {map_type: "HYBRID", sphericalMercator: true}, {isBaseLayer: false,visibility:false, displayInLayerSwitcher:false} );
+				layers.push( yahoo_hybrid_layer );
+
+				layers.push( new OpenLayers.Layer.IngitMaps( "IngitMaps" , {map_type: "SATELLITE", sphericalMercator: true} ));
+				*/
+
+				m_map.addLayers(layers);
+
+				m_map.addControl(new OpenLayers.Control.MousePosition());
+				m_map.addControl(new OpenLayers.Control.ScaleLine());
+				m_map.addControl(new OpenLayers.Control.Navigation());
+				m_map.addControl(new OpenLayers.Control.LayerSwitcher({activeColor: "#eae5d8"}));
+
+				var opt = webgis_map_options({
+					controls: [],
+					theme: null
+				});
+				var overviewControl = new OpenLayers.Control.OverviewMap({
+					mapOptions: opt
+				});
+				m_map.addControl(overviewControl);
+
+				var pt = new OpenLayers.LonLat(firstLon, firstLat);
+				pt.transform(m_map.displayProjection, m_map.getProjectionObject());
+				m_map.setCenter(pt, firstZoom);
+
+				if (firstLayerName != "") {
+					var find_lays = m_map.getLayersByName(firstLayerName);
+					if (find_lays.length > 0) {
+						m_map.setBaseLayer(find_lays[0]);
+					}
+				}
+
+				mapLoaded = true;
+
+				disable_double_click_control = new OpenLayers.Control.DisableDoubleClickControl();
+				m_map.addControl(disable_double_click_control);
+				disable_double_click_control.deactivate();
+
+				if (disable_double_click) {
+					var CustomClick = new OpenLayers.Control.DisableDoubleClickControl();
+					m_map.addControl(CustomClick);
+					CustomClick.activate();
+				}
+
+            }
+
+
+			function mapBaseLayerChanged(event) {
+				if (yahoo_hybrid_layer) {
+					if (m_map.baseLayer.name == "Yahoo Гибрид") {
+						yahoo_hybrid_layer.setVisibility(true);
+					} else if (yahoo_hybrid_layer.getVisibility()==true) {
+						yahoo_hybrid_layer.setVisibility(false);
+					}
+				}
+            }
+
+
+			function osm_getTileURL_Local(bounds) {
+	            var res = this.map.getResolution();
+	            var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+	            var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+	            var z = this.map.getZoom();
+	            var limit = Math.pow(2, z);
+	            if (y < 0 || y >= limit) {
+	                return OpenLayers.Util.getImagesLocation() + "404.png";
+	            } else {
+	                x = ((x % limit) + limit) % limit;
+					return "http://127.0.0.1:2020?itob_z=" + z + "&itob_y=" + y + "&itob_x=" + x + "&itob_prof=0";
+	            }
+	        }
+
+			function osm_getTileURL_Local2(bounds) {
+	            var res = this.map.getResolution();
+	            var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+	            var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+	            var z = this.map.getZoom();
+	            var limit = Math.pow(2, z);
+	            if (y < 0 || y >= limit) {
+	                return OpenLayers.Util.getImagesLocation() + "404.png";
+	            } else {
+	                x = ((x % limit) + limit) % limit;
+					return "http://127.0.0.1:2020?itob_z=" + z + "&itob_y=" + y + "&itob_x=" + x + "&itob_prof=1";
+	            }
+	        }
+			function osm_getTileURL_Local3(bounds) {
+	            var res = this.map.getResolution();
+	            var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+	            var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+	            var z = this.map.getZoom();
+	            var limit = Math.pow(2, z);
+	            if (y < 0 || y >= limit) {
+	                return OpenLayers.Util.getImagesLocation() + "404.png";
+	            } else {
+	                x = ((x % limit) + limit) % limit;
+					return "http://127.0.0.1:2020?itob_z=" + z + "&itob_y=" + y + "&itob_x=" + x + "&itob_prof=2";
+	            }
+	        }
+
+			function osm_getTileURL(bounds) {
+	            var res = this.map.getResolution();
+	            var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+	            var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+	            var z = this.map.getZoom();
+	            var limit = Math.pow(2, z);
+
+	            if (y < 0 || y >= limit) {
+	                return OpenLayers.Util.getImagesLocation() + "404.png";
+	            } else {
+	                x = ((x % limit) + limit) % limit;
+	                return this.url + z + "/" + x + "/" + y + "." + this.type;
+	            }
+	        }
+
+			function getOsmMapnikTileURL(bounds) {
+	            var res = this.map.getResolution();
+	            var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+	            var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+	            var z = this.map.getZoom();
+	            var limit = Math.pow(2, z);
+				var subs = [ 'a', 'b', 'c' ];
+
+	            if (y < 0 || y >= limit) {
+	                return OpenLayers.Util.getImagesLocation() + "404.png";
+	            } else {
+	                x = ((x % limit) + limit) % limit;
+	                return "http://" + subs[(x+y)%3] + ".tile.openstreetmap.org/" + z + "/" + x + "/" + y + "." + this.type;
+	            }
+	        }
+
+			function GetCloudMadeTileURL(bounds) {
+	            var res = this.map.getResolution();
+	            var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+	            var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+	            var z = this.map.getZoom();
+	            var limit = Math.pow(2, z);
+				var subs = [ 'a', 'b', 'c' ];
+
+	            if (y < 0 || y >= limit) {
+	                return OpenLayers.Util.getImagesLocation() + "404.png";
+	            } else {
+	                x = ((x % limit) + limit) % limit;
+					return "http://" + subs[(x+y)%3] + ".tile.cloudmade.com/b340f66132415b1fb597971398c1bfc0/1/256/"
+						+ z + "/" + x + "/" + y + "." + this.type;
+	            }
+	        }
+
+			function create_geozones_control() {
+				var geozone_layer = new OpenLayers.Layer.Vector("Geozone creation", {displayInLayerSwitcher: false});
+				m_map.addLayer(geozone_layer);
+
+				var default_style = {
+        			fillColor: "#197B30",
+			        fillOpacity: 0.4,
+			        hoverFillColor: "white",
+			        hoverFillOpacity: 0.8,
+			        strokeColor: "#004A80",
+			        strokeOpacity: 0.5,
+			        strokeWidth: 1,
+			        strokeLinecap: "round",
+			        hoverStrokeColor: "#FDC689",
+			        hoverStrokeOpacity: 0.5,
+			        hoverStrokeWidth: 0.2,
+			        pointRadius: 4,
+			        hoverPointRadius: 1,
+			        hoverPointUnit: "%",
+			        pointerEvents: "visiblePainted"
+			    }
+
+				var geozone_style = OpenLayers.Util.extend({}, default_style);
+
+				var geozone_last_style = OpenLayers.Util.extend({}, default_style);
+	            geozone_last_style.fillColor = "#FF0000";
+	            geozone_last_style.fillOpacity = 0.9;
+	            geozone_last_style.hoverFillColor = "red";
+	            geozone_last_style.pointRadius = 4;
+	            geozone_last_style.strokeColor = "#FF0000";
+	            geozone_last_style.strokeWidth = 1;
+
+				var polyOptions = {
+                    handlerOptions: {
+                        style: geozone_style,
+                        lastStyle: geozone_last_style
+                    }
+                };
+            	geozones_control = new OpenLayers.Control.DrawFeature(geozone_layer,
+                                            OpenLayers.Handler.PolygonEx,
+                                            polyOptions);
+				m_map.addControl(geozones_control);
+
+				m_map.events.register('zoomend', this, function() {
+            		if (geozone_layer && geozones_control) geozone_redraw();
+        		});
+
+				geozones_control.activate();
+			}
+
+			function destroy_geozones_control() {
+				if (geozones_control) {
+					geozones_control.deactivate();
+					m_map.removeControl(geozones_control);
+					geozones_control = null;
+				}
+				var find_lays = m_map.getLayersByName("Geozone creation");
+				if (find_lays.length > 0) {
+					m_map.removeLayer(find_lays[0]);
+				}
+			}
+
+			function geozone_redraw() {
+				if (geozones_control.handler) {
+                	geozones_control.handler.drawFeature();
+            	}
+			}
+
+        </script>
+
+    <body onLoad="init()">
+	<div></div>
+    	<div id="map"></div>
+        <div id="footer">
+            <form name="form" method="get" style="visibility:hidden; height:0px; background-color:#FF0000;">
+                <input name="result" type="hidden" value="" />
+            </form>
+        </div>
+</body>
+</html>

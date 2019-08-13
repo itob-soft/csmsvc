@@ -1,0 +1,20 @@
+[http]
+port=8091
+
+[replication]
+Enabled=0
+
+; Адрес сервера сбора данных, по умолчанию gps.itob.ru
+Server=gps.itob.ru
+
+Port=6720
+
+Login=demo
+
+Password=demo
+
+Interval=60
+
+InfoBaseConnectionString=File="D:\bases_1c\develop\mc82";Usr="ReplicationBot";Pwd="ole123"
+
+EnterpriseVersion=8.2

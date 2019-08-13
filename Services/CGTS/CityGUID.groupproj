@@ -1,0 +1,84 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{59B81837-8ABA-427E-B0CE-48863A78351F}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="CGTS.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="CGTS_App.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="..\..\utils\IIPS_App\IIPS_App.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="..\..\utils\IIPS_Local\IIPS_Local.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="..\..\..\HELPING_UTILS\GWX\GWX.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="CGTS">
+			<MSBuild Projects="CGTS.dproj"/>
+		</Target>
+		<Target Name="CGTS:Clean">
+			<MSBuild Targets="Clean" Projects="CGTS.dproj"/>
+		</Target>
+		<Target Name="CGTS:Make">
+			<MSBuild Targets="Make" Projects="CGTS.dproj"/>
+		</Target>
+		<Target Name="CGTS_App">
+			<MSBuild Projects="CGTS_App.dproj"/>
+		</Target>
+		<Target Name="CGTS_App:Clean">
+			<MSBuild Targets="Clean" Projects="CGTS_App.dproj"/>
+		</Target>
+		<Target Name="CGTS_App:Make">
+			<MSBuild Targets="Make" Projects="CGTS_App.dproj"/>
+		</Target>
+		<Target Name="IIPS_App">
+			<MSBuild Projects="..\..\utils\IIPS_App\IIPS_App.dproj"/>
+		</Target>
+		<Target Name="IIPS_App:Clean">
+			<MSBuild Targets="Clean" Projects="..\..\utils\IIPS_App\IIPS_App.dproj"/>
+		</Target>
+		<Target Name="IIPS_App:Make">
+			<MSBuild Targets="Make" Projects="..\..\utils\IIPS_App\IIPS_App.dproj"/>
+		</Target>
+		<Target Name="IIPS_Local">
+			<MSBuild Projects="..\..\utils\IIPS_Local\IIPS_Local.dproj"/>
+		</Target>
+		<Target Name="IIPS_Local:Clean">
+			<MSBuild Targets="Clean" Projects="..\..\utils\IIPS_Local\IIPS_Local.dproj"/>
+		</Target>
+		<Target Name="IIPS_Local:Make">
+			<MSBuild Targets="Make" Projects="..\..\utils\IIPS_Local\IIPS_Local.dproj"/>
+		</Target>
+		<Target Name="GWX">
+			<MSBuild Projects="..\..\..\HELPING_UTILS\GWX\GWX.dproj"/>
+		</Target>
+		<Target Name="GWX:Clean">
+			<MSBuild Targets="Clean" Projects="..\..\..\HELPING_UTILS\GWX\GWX.dproj"/>
+		</Target>
+		<Target Name="GWX:Make">
+			<MSBuild Targets="Make" Projects="..\..\..\HELPING_UTILS\GWX\GWX.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="CGTS;CGTS_App;IIPS_App;IIPS_Local;GWX"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="CGTS:Clean;CGTS_App:Clean;IIPS_App:Clean;IIPS_Local:Clean;GWX:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="CGTS:Make;CGTS_App:Make;IIPS_App:Make;IIPS_Local:Make;GWX:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>

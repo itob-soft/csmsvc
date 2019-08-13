@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.546,=D:\develop\csmservice\INGIT\frmIngit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.586,D:\develop\csmservice\INGIT\frmIngit.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.712,=D:\develop\csmservice\Services\INGIT\uLengthCounter.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\develop\CsmSvc\ExternalDbDataModule.pas=D:\develop\CsmSvc\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.525,=D:\develop\csmservice\Services\CGTS\core\uCGTS_ServerConst.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.859,=D:\develop\csmservice\INGIT\frmIngit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.818,=D:\develop\csmservice\INGIT\uINGITPoole.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.584,=D:\develop\csmservice\INGIT\uINGITPoole.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.673,D:\develop\csmservice\INGIT\uINGITPoole.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.076,D:\develop\csmservice\GUI_TEST\TileRenderCore\uIHZServerConst.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.523,=D:\develop\imcs_sdk\source\superobject\superxmlparser.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\develop\CsmSvc\UnitService.dfm=C:\Documents and Settings\yolkin\My Documents\RAD Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.278,D:\develop\csmservice\GUI_TEST\TileRenderCore\uProfStorage.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,W:\ITOB\Current\imcs_Integrator\utils\IHZS_App\core\uIHZServer.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.870,=D:\develop\csmservice\Services\CGTS\core\uCGTS_Server.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.662,D:\develop\csmservice\sqlite\SQLite3.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.038,=D:\develop\csmservice\sqlite\SQLite3.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.283,=D:\develop\csmservice\sqlite\SQLite3.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.075,=D:\develop\csmservice\INGIT\uLengthCounter.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.506,=D:\develop\imcs_sdk\source\superobject\supertypes.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.667,=D:\develop\csmservice\Services\INGIT\frmIngit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\develop\CsmSvc\UnitService.pas=C:\Documents and Settings\yolkin\My Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.599,=D:\develop\csmservice\INGIT\uLengthCounter.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.682,D:\develop\csmservice\INGIT\uLengthCounter.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.689,=D:\develop\csmservice\Services\INGIT\uINGITConst.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.624,D:\develop\csmservice\INGIT\uCSM_INGITServer.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dproj,D:\develop\CsmSvc\CsmSvc.dproj=C:\Documents and Settings\yolkin\My Documents\RAD Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.495,=D:\develop\imcs_sdk\source\superobject\supertimezone.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.472,=D:\develop\imcs_sdk\source\superobject\superdate.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.580,=D:\develop\csmservice\INGIT\uCSM_INGITServer.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.560,=D:\develop\csmservice\INGIT\uCSM_INGITServer.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.645,D:\develop\csmservice\INGIT\uINGITConst.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.802,=D:\develop\csmservice\INGIT\uINGITConst.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.701,=D:\develop\csmservice\Services\INGIT\uINGITPoole.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.dfm,D:\develop\CsmSvc\ExternalDbDataModule.dfm=D:\develop\CsmSvc\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,W:\ITOB\Current\imcs_Integrator\utils\IHZS_App\core\EPSG900913.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.572,=D:\develop\csmservice\INGIT\uINGITConst.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.317,=D:\develop\csmservice\sqlite\SQLite3Wrap.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.678,D:\develop\csmservice\sqlite\SQLite3Wrap.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,W:\ITOB\Current\imcs_Integrator\utils\IHZS_App\core\uIHZServerConst.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.678,=D:\develop\csmservice\Services\INGIT\uCSM_INGITServer.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.861,=D:\develop\csmservice\com\CityGuideSDK_TLB.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.070,=D:\develop\csmservice\sqlite\SQLite3Wrap.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.054,=D:\develop\csmservice\sqlite\SQLite3Utils.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.297,=D:\develop\csmservice\sqlite\SQLite3Utils.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.671,D:\develop\csmservice\sqlite\SQLite3Utils.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.485,=D:\develop\imcs_sdk\source\superobject\superobject.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.842,=D:\develop\csmservice\com\CityGuideControlLib_TLB.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,W:\ITOB\Current\imcs_Integrator\utils\IHZS_App\core\uProfStorage.pas=</Transaction>
+  </Transactions>
+</BorlandProject>

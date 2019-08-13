@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{2DD21B81-F89F-4A04-9D48-86F865507CA7}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="CsmSvc.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="GUI_TEST\TestCsmSvc.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="CsmSvc">
+        <MSBuild Projects="CsmSvc.dproj"/>
+    </Target>
+    <Target Name="CsmSvc:Clean">
+        <MSBuild Projects="CsmSvc.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CsmSvc:Make">
+        <MSBuild Projects="CsmSvc.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TestCsmSvc">
+        <MSBuild Projects="GUI_TEST\TestCsmSvc.dproj"/>
+    </Target>
+    <Target Name="TestCsmSvc:Clean">
+        <MSBuild Projects="GUI_TEST\TestCsmSvc.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TestCsmSvc:Make">
+        <MSBuild Projects="GUI_TEST\TestCsmSvc.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="CsmSvc;TestCsmSvc"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="CsmSvc:Clean;TestCsmSvc:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="CsmSvc:Make;TestCsmSvc:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

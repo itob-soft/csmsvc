@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2013.10.24 18:01:41.703.pas,C:\Documents and Settings\Denis\My Documents\RAD Studio\Projects\Unit2.pas=W:\ITOB\Current\imcs_Integrator\Services\CGTS\forms\uCGTSAppMain.pas</Transaction>
+    <Transaction>2013.10.24 18:01:41.703.dfm,C:\Documents and Settings\Denis\My Documents\RAD Studio\Projects\Unit2.dfm=W:\ITOB\Current\imcs_Integrator\Services\CGTS\forms\uCGTSAppMain.dfm</Transaction>
+    <Transaction>2013.10.24 18:01:46.687.dproj,C:\Documents and Settings\Denis\My Documents\RAD Studio\Projects\Project1.dproj=W:\ITOB\Current\imcs_Integrator\Services\CGTS\CGTS_App.dproj</Transaction>
+    <Transaction>2013.10.24 18:02:08.890.pas,W:\ITOB\Current\imcs_Integrator\Services\CGTS\Unit2.pas=W:\ITOB\Current\imcs_Integrator\Services\CGTS\core\uCGTS_Sever.pas</Transaction>
+    <Transaction>2013.10.24 18:37:48.187.pas,W:\ITOB\Current\imcs_Integrator\Services\CGTS\Unit2.pas=W:\ITOB\Current\imcs_Integrator\Services\CGTS\core\uCGTS_SeverConst.pas</Transaction>
+    <Transaction>2013.10.24 18:37:54.843.pas,W:\ITOB\Current\imcs_Integrator\Services\CGTS\core\uCGTS_Sever.pas=W:\ITOB\Current\imcs_Integrator\Services\CGTS\core\uCGTS_Server.pas</Transaction>
+    <Transaction>2013.10.28 17:36:16.109.pas,W:\IMCS_Dev\imcs_Integrator\Services\CGTS\core\uCGTS_SeverConst.pas=W:\IMCS_Dev\imcs_Integrator\Services\CGTS\core\uCGTS_ServerConst.pas</Transaction>
+  </Transactions>
+</BorlandProject>

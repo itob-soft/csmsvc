@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2013.10.24 18:00:38.406.pas,C:\Documents and Settings\Denis\My Documents\RAD Studio\Projects\Unit2.pas=W:\ITOB\Current\imcs_Integrator\Services\CGTS\forms\uCGTSMain.pas</Transaction>
+    <Transaction>2013.10.24 18:00:38.406.dfm,C:\Documents and Settings\Denis\My Documents\RAD Studio\Projects\Unit2.dfm=W:\ITOB\Current\imcs_Integrator\Services\CGTS\forms\uCGTSMain.dfm</Transaction>
+    <Transaction>2013.10.24 18:00:48.781.dproj,C:\Documents and Settings\Denis\My Documents\RAD Studio\Projects\Project1.dproj=W:\ITOB\Current\imcs_Integrator\Services\CGTS\CGTS.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
